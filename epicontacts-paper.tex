@@ -1,0 +1,429 @@
+\documentclass[9pt,a4paper,]{extarticle}
+
+\usepackage{f1000_styles}
+
+\usepackage[pdfborder={0 0 0}]{hyperref}
+
+\usepackage[super]{natbib}
+\bibliographystyle{unsrtnat}
+
+
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+
+% disable code chunks background
+%\renewenvironment{Shaded}{}{}
+
+% disable section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{solution}{Solution}
+\begin{document}
+\pagestyle{front}
+
+\title{epicontacts: Handling, Visualisation and Analysis of Epidemiological Contacts}
+
+\author[1]{VP Nagraj}
+\author[2]{Nistara Randhawa}
+\author[3]{Finlay Campbell}
+\author[4]{Thomas Crellen}
+\author[5]{Bertrand Sudre}
+\author[3]{Thibaut Jombart}
+\affil[1]{University of Virginia, USA}
+\affil[2]{One Health Institute, University of California, Davis, USA}
+\affil[3]{MRC Centre for Outbreak Analysis and Modelling, Department of Infectious Disease Epidemiology, School of Public Health, Imperial College London, United Kingdom.}
+\affil[4]{Sanger Institute}
+\affil[5]{European Centre for Disease Prevention and Control | ECDC}
+
+\maketitle
+\thispagestyle{front}
+
+\begin{abstract}
+Epidemiological outbreak data is often captured in line list and contact format. \texttt{epicontacts} is an R package that provides a unique data structure for combining these data into a single object in order to facilitate more efficient visualization and analysis. The package incorporates interactive visualization functionality as well as network analysis techniques. Originally developed as part of the Hackout3 event, it is now developed, maintained and featured as part of the R Epidemics Consortium (RECON). The package is available for download from the Comprehensive R Archive Network (CRAN) and Github.
+\end{abstract}
+
+\section*{Keywords}
+contact tracing, outbreaks, R
+
+
+\clearpage
+\pagestyle{main}
+
+\section{Introduction}\label{introduction}
+
+In order to study, prepare for, and intervene against disease outbreaks, infectious disease modellers as well as public health professionals need an extensive toolbox for analyzing epidemiological data. Disease outbreak analytics involve a wide range of tasks which need to be linked together, from data collection and curation to exploratory analyses, and more advanced modelling techniques used for incidence forecasting\citep{funk:2016}\citep{nouvellet:2017} or to predict the impact of specific interventions\citep{nouvellet:2015}\citep{parker:2015}. Recent outbreak responses suggest that for such analyses to be as informative as possible, they need to rely on a wealth of available data, including timing of symptoms, characterisation of key delay distributions (e.g.~incubation period, serial interval), and data on contacts between patients\citep{cauchemez:2014}\citep{aylward:2014}\citep{agua-agum:2015}\citep{cori:2017}.
+
+The latter type of data is particularly important in outbreak context, not only because contacts between patients is useful for unravelling the drivers of an epidemic \citep{agua-agum:2016}\citep{cauchemez:2016}, but also as a mean to identify new cases early and reduce ongoing transmission via contact tracing, i.e.~follow-up of individuals who reported contacts with known cases\citep{senga:2017}\citep{saurabh:2017}. However, curating contact data and linking them to existing linelists of cases is often challenging, and analytics tools for storing, handling, and visualising contact data are often missing \citep{who:2009}\citep{rakesh:2014}.
+
+Here, we introduce epicontacts, an R package providing a suite of tools aimed at merging linelists and contact data, and providing basic functionalities for handling, visualizing and analysing epidemiological contact data. Epicontacts is developed as part of the R Epidemics Consortium (RECON: \url{http://www.repidemicsconsortium.org/}), and as such is integrated alongside a larger set of analytics tools for outbreak response using the R software\citep{rcore}.
+
+\section{Methods}\label{methods}
+
+\subsection{Operation}\label{operation}
+
+The \texttt{epicontacts} package is released as an open-source R package. A stable release is freely available for install on Windows, Mac and Linux operating systems via the CRAN repository. The latest development version of the package is available as part of the the RECON Github organization. From within R, users can issue the following commands to install the CRAN or Github version respectively:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# install from CRAN}
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"epicontacts"}\NormalTok{)}
+
+\CommentTok{# install from Github}
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"devtools"}\NormalTok{)}
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"reconhub/epicontacts"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Once installed, the package is ready to be loaded and attached. It includes vignettes describing use-cases and documentation for specific functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# load and attach the package}
+\KeywordTok{library}\NormalTok{(epicontacts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# view vignettes}
+\KeywordTok{browseVignettes}\NormalTok{(}\DataTypeTok{package =} \StringTok{"epicontacts"}\NormalTok{)}
+
+\CommentTok{# access function documentation}
+\NormalTok{?make_epicontacts}
+\NormalTok{?vis_epicontacts}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Implementation}\label{implementation}
+
+\subsubsection{Data handling}\label{data-handling}
+
+The package is designed to handle contact tracing data that is organized in linelist and contact list format. As such, it includes a novel data structure to accommodate both of these datasets in a single object. \texttt{epicontacts} was designed and exported as an S3 class using an object oriented programing (OOP) approach in R. Based on the language's \texttt{list} data type, objects of this class are constructed with the \texttt{make\_epiconctacts()} function and include attributes for line list (\texttt{data.frame}) and contact list (\texttt{data.frame}). Once combined in a single object, these are mapped via other functions in a graph paradigm as nodes and edges. The \texttt{epicontacts} data structure also includes a \texttt{logical} attribute for whether or not this resulting network is directed.
+
+With the line list and contact data in a single object, the \texttt{epicontacts} package takes advantage of R's implementation of generic functions, which call specific methods depending on the S3 class of an object. This is implemented several places, including the \texttt{summary.epicontacts()} and \texttt{print.epicontacts()} methods, both of which are respectively called when the \texttt{summary()} or \texttt{print()} functions are used on an \texttt{epicontacts} object. The package deliberately does not include built-in contact and line list datasets, as these are abstracted in the \texttt{outbreaks} package\citep{outbreaks}. The example that follows demonstrates how to do preliminary handling of data from that package with \texttt{epicontacts}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# install the outbreaks package for data}
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"outbreaks"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# load the outbreaks package}
+\KeywordTok{library}\NormalTok{(outbreaks)}
+
+\CommentTok{# construct an epicontacts object}
+\NormalTok{x <-}\StringTok{ }\KeywordTok{make_epicontacts}\NormalTok{(}\DataTypeTok{linelist=}\NormalTok{mers_korea_}\DecValTok{2015}\NormalTok{[[}\DecValTok{1}\NormalTok{]],}
+                      \DataTypeTok{contacts =}\NormalTok{ mers_korea_}\DecValTok{2015}\NormalTok{[[}\DecValTok{2}\NormalTok{]],}
+                      \DataTypeTok{directed=}\OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{# print the object   }
+\NormalTok{x               }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## /// Epidemiological Contacts //
+## 
+##   // class: epicontacts
+##   // 162 cases in linelist; 98 contacts;  directed 
+## 
+##   // linelist
+## 
+## # A tibble: 162 x 15
+##    id      age age_class sex   place_infect  reporting_ctry loc_hosp      
+##  * <chr> <int> <chr>     <fct> <fct>         <fct>          <fct>         
+##  1 SK_1     68 60-69     M     Middle East   South Korea    Pyeongtaek St~
+##  2 SK_2     63 60-69     F     Outside Midd~ South Korea    Pyeongtaek St~
+##  3 SK_3     76 70-79     M     Outside Midd~ South Korea    Pyeongtaek St~
+##  4 SK_4     46 40-49     F     Outside Midd~ South Korea    Pyeongtaek St~
+##  5 SK_5     50 50-59     M     Outside Midd~ South Korea    365 Yeollin C~
+##  6 SK_6     71 70-79     M     Outside Midd~ South Korea    Pyeongtaek St~
+##  7 SK_7     28 20-29     F     Outside Midd~ South Korea    Pyeongtaek St~
+##  8 SK_8     46 40-49     F     Outside Midd~ South Korea    Seoul Clinic,~
+##  9 SK_9     56 50-59     M     Outside Midd~ South Korea    Pyeongtaek St~
+## 10 SK_10    44 40-49     M     Outside Midd~ China          Pyeongtaek St~
+## # ... with 152 more rows, and 8 more variables: dt_onset <date>, dt_report
+## #   <date>, week_report <fct>, dt_start_exp <date>, dt_end_exp <date>,
+## #   dt_diag <date>, outcome <fct>, dt_death <date>
+## 
+##   // contacts
+## 
+## # A tibble: 98 x 4
+##    from  to     exposure       diff_dt_onset
+##    <chr> <chr>  <fct>                  <int>
+##  1 SK_14 SK_113 Emergency room            10
+##  2 SK_14 SK_116 Emergency room            13
+##  3 SK_14 SK_41  Emergency room            14
+##  4 SK_14 SK_112 Emergency room            14
+##  5 SK_14 SK_100 Emergency room            15
+##  6 SK_14 SK_114 Emergency room            15
+##  7 SK_14 SK_136 Emergency room            15
+##  8 SK_14 SK_47  Emergency room            16
+##  9 SK_14 SK_110 Emergency room            16
+## 10 SK_14 SK_122 Emergency room            16
+## # ... with 88 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# view a summary of the object                  }
+\KeywordTok{summary}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## /// Overview //
+##   // number of unique IDs in linelist: 162
+##   // number of unique IDs in contacts: 97
+##   // number of unique IDs in both: 97
+##   // number of contacts: 98
+##   // contacts with both cases in linelist: 100 %
+## 
+## /// Degrees of the network //
+##   // in-degree summary:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    1.00    1.00    1.01    1.00    3.00 
+## 
+##   // out-degree summary:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    0.00    0.00    1.01    0.00   38.00 
+## 
+##   // in and out degree summary:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   1.000   1.000   2.021   1.000  39.000 
+## 
+## /// Attributes //
+##   // attributes in linelist:
+##  age age_class sex place_infect reporting_ctry loc_hosp dt_onset dt_report week_report dt_start_exp dt_end_exp dt_diag outcome dt_death
+## 
+##   // attributes in contacts:
+##  exposure diff_dt_onset
+\end{verbatim}
+
+\subsubsection{Data visualisation}\label{data-visualisation}
+
+As mentioned previously, the structure of the \texttt{epicontacts} object lends itself to network visualization. The package implements two interactive graph plotting packages: \texttt{visNetwork} and \texttt{threejs}\citep{visNetwork}\citep{threejs}. These are htmlwidgets that provide R interfaces to JavaScript libraries, \texttt{vis.js} and \texttt{three.js} respectively. Their functionality is incorporated in the generic \texttt{plot()} method for an \texttt{epicontacts} object, which can be toggled between either with the ``type'' parameter. Alternatively, the \texttt{visNetwork} interactivity is accessible by using \texttt{vis\_epicontacts()}, and \texttt{threejs} via \texttt{graph3D()}. Each function has a series arguments that can also be passed through \texttt{plot()}. Both share a color palette, and users can specify node, edge and background colors. However, these functions do have subtle differentiations in behaviors. For instance, \texttt{vis\_epicontacts()} includes a specification for ``node\_shape'' by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that \texttt{graph3D()} is a three-dimensional visualization. In addition to zooming and dragging the network, users can rotate clusters of nodes to better inspect their relationships.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.00000\textwidth]{figure1.png}
+\caption{The generic plot() method for an epicontacts object will use the visNetwork method by default.}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{vis_epicontacts}\NormalTok{(x,}
+                \DataTypeTok{node_shape =} \StringTok{"sex"}\NormalTok{,}
+                \DataTypeTok{shapes =} \KeywordTok{c}\NormalTok{(}\DataTypeTok{F =} \StringTok{"female"}\NormalTok{, }\DataTypeTok{M =} \StringTok{"male"}\NormalTok{),}
+                \DataTypeTok{edge_label =} \StringTok{"exposure"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.00000\textwidth]{figure2.png}
+\caption{The vis\_epicontacts() function explicitly calls visNetwork to make an interactive plot of the contact network.}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{graph3D}\NormalTok{(x, }\DataTypeTok{bg_col =} \StringTok{"black"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.00000\textwidth]{figure3.png}
+\caption{The graph3D() function generates a three-dimensional network plot.}
+\end{figure}
+
+\subsubsection{Data analysis}\label{data-analysis}
+
+One typical step for analyzing a dataset is to look at a certain subset of the data. \texttt{epicontacts} includes implementations of the generic R \texttt{subset} function to filter the line list or contacts based on values of particular attributes. These specifications are passed as named lists to the ``node\_attribute'' and ``edge\_attribute'' arguments, which can be used simultaneously if necessary. In addition to subsetting based on specific values, users may be interested in returning only contacts that appear in the line list or vice versa. The \texttt{thin()} function implements such logic.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# subset for males}
+\KeywordTok{subset}\NormalTok{(x, }\DataTypeTok{node_attribute =} \KeywordTok{list}\NormalTok{(}\StringTok{"sex"}\NormalTok{ =}\StringTok{ "M"}\NormalTok{))}
+
+\CommentTok{# subset for exposure in emergency room}
+\KeywordTok{subset}\NormalTok{(x, }\DataTypeTok{edge_attribute =} \KeywordTok{list}\NormalTok{(}\StringTok{"exposure"}\NormalTok{ =}\StringTok{ "Emergency room"}\NormalTok{))}
+
+\CommentTok{# subset for males who survived and were exposed in emergency room}
+\KeywordTok{subset}\NormalTok{(x,}
+       \DataTypeTok{node_attribute =} \KeywordTok{list}\NormalTok{(}\StringTok{"sex"}\NormalTok{ =}\StringTok{ "M"}\NormalTok{, }\StringTok{"outcome"}\NormalTok{ =}\StringTok{ "Alive"}\NormalTok{),}
+       \DataTypeTok{edge_attribute =} \KeywordTok{list}\NormalTok{(}\StringTok{"exposure"}\NormalTok{ =}\StringTok{ "Emergency room"}\NormalTok{))}
+
+\KeywordTok{thin}\NormalTok{(x, }\StringTok{"contacts"}\NormalTok{)}
+\KeywordTok{thin}\NormalTok{(x, }\StringTok{"linelist"}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{get\_pairwise()} feature allows for specific analyses based on pairwise contact between individuals. With the contacts established, the function searches the linelist based on the supplied attribute. If the given column is a numeric or date object, \texttt{get\_pairwise()} will return a vector containing the difference of the values of the corresponding ``from'' and ``to'' contacts. This can be particularly useful, for example, if the line list includes the date of onset of each case. The subtracted value of the contacts (from and to) would approximate the serial interval for the outbreak\citep{fine:2003}. For factors, character vectors and other non-numeric attributes, the default behavior is to print the associated linelist attribute for each pair of contacts. The function includes an further parameter to pass an arbitrary function to process the specified attributes. In the case of a string attribute, this can be helpful for tabulating information about different contact pairings by using the \texttt{table()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# find difference for the date onset in cases between from and to contacts (serial interval)}
+\KeywordTok{get_pairwise}\NormalTok{(x, }\StringTok{"dt_onset"}\NormalTok{)}
+
+\CommentTok{# find pairs of age category contacts}
+\KeywordTok{get_pairwise}\NormalTok{(x, }\StringTok{"age_class"}\NormalTok{)}
+
+\CommentTok{# tabulate the pairs of age category contacts}
+\KeywordTok{get_pairwise}\NormalTok{(x, }\StringTok{"age_class"}\NormalTok{, }\DataTypeTok{f =}\NormalTok{ table)}
+\end{Highlighting}
+\end{Shaded}
+
+In terms of analysis, the package also leverages network techniques, including calculation of node degrees. This is implemented in \texttt{get\_degree()}, which takes an \texttt{epicontacts} object and considers unique individuals across line lists and contacts as nodes. However, the function can be parameterized to only include cases from the line list if necessary. For directed networks the degree is available for ``in'', ``out'' or ``both'' directions per individual. The vector of ``out'' degrees estimates the reproductive number distribution\citep{wu:2016}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# get degree for both}
+\KeywordTok{get_degree}\NormalTok{(x, }\StringTok{"both"}\NormalTok{)}
+
+\CommentTok{# get degree out for only the contacts among individuals that appear in line list}
+\KeywordTok{get_degree}\NormalTok{(x, }\StringTok{"out"}\NormalTok{, }\DataTypeTok{only_linelist =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Discussion}\label{discussion}
+
+\subsection{Benefits}\label{benefits}
+
+While there are software packages available for epidemiological contact visualization and analysis, none aim to accommodate line list and contact data as purposively as \texttt{epicontacts}\citep{noremark:2014}\citep{carroll:2014}\citep{guthrie:2017}. Furthermore, the package strives to solve a problem of plotting dense graphs by implementing interactive network visualization tools. A static plot of a network with many nodes and edges may be difficult to interpret. However, by dragging, hovering, zooming or rotating an \texttt{epicontacts} visualization, a user may be able to better understand the data. To the authors' knowledge there are no comparable visualization tools for disease outbreak networks. With that in mind, the fact that the functionality is freely packaged, with source code available, is beneficial to public health officials responding to outbreaks, epidemiological researchers as well as developers looking to incorporate or extend the package's functions in novel ways.
+
+\subsection{Implications for new tools}\label{implications-for-new-tools}
+
+As with other open-source tools, the authors expect not only that the package will be used for data analysis, but also that it may be further developed and incorporated into new tools. The source code is available and contributions from other developers are welcome via Github pull requests. There is at least one R package that currently extends the original \texttt{epicontacts} functionality. The package \texttt{dibbler} for analyzing foodborne illness outbreak data builds upon the \texttt{epicontacts} structure to make its own similar data type\citep{dibbler}.
+
+\subsection{Future considerations}\label{future-considerations}
+
+\texttt{epicontacts} is a dynamic resource. Its maintainers have an eye towards new features and extended functionality. One area of future development could involve performance enhancement for visualizing extremely dense networks. Generating the interactive plots of large graphs is resource intensive. Further optimization of these visualization functions would be ideal. Additionally, future attention may be directed towards inclusion of alternative visualization methods, like adjacency heatmaps for example.
+
+\section{Conclusions}\label{conclusions}
+
+\texttt{epicontacts} provides a unified interface in the R statistical computing language for researchers and public health professionals to process, visualize and analyze disease outbreak data. The package and its source are freely available in a stable release on CRAN, as well as a development release on Github. By providing functionality designed around line list and contact list data, the authors aim to enable more efficient epidemiological analyses.
+
+\section{Software availability}\label{software-availability}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  URL link to where the software can be downloaded from or used by a non-coder: \url{https://CRAN.R-project.org/package=epicontacts}
+\item
+  URL link to the author's version control system repository containing the source code: \url{https://github.com/reconhub/epicontacts}
+\item
+  Link to source code as at time of publication (\emph{F1000Research} TO GENERATE)
+\item
+  Link to archived source code as at time of publication (\emph{F1000Research} TO GENERATE)
+\item
+  Software license: GPL 2
+\end{enumerate}
+
+\section{Author contributions}\label{author-contributions}
+
+\begin{itemize}
+\item
+  VPN: Conceptualization, Software, Writing - Original Draft Preparation
+\item
+  NR: Conceptualization, Software, Writing - Original Draft Preparation
+\item
+  FC: Conceptualization, Software, Writing - Original Draft Preparation
+\item
+  TC: Conceptualization, Software
+\item
+  BS: Conceptualization
+\item
+  TJ: Conceptualization, Software, Writing - Original Draft Preparation
+\end{itemize}
+
+\section{Competing interests}\label{competing-interests}
+
+No competing interests were disclosed.
+
+\section{Grant information}\label{grant-information}
+
+The authors declared that no grants were involved in supporting this work.
+
+{\small\bibliography{biblio.bib}}
+
+\end{document}

@@ -1,0 +1,206 @@
+---
+title: "epicontacts: Handling, Visualisation and Analysis of Epidemiological Contacts"
+author: 
+  - name: VP Nagraj
+    affiliation: University of Virginia, USA
+  - name: Nistara Randhawa
+    affiliation: One Health Institute, University of California, Davis, USA
+  - name: Finlay Campbell
+    affiliation: MRC Centre for Outbreak Analysis and Modelling, Department of Infectious Disease Epidemiology, School of Public Health, Imperial College London, United Kingdom.
+  - name: Thomas Crellen
+    affiliation: Sanger Institute
+  - name: Bertrand Sudre
+    affiliation: European Centre for Disease Prevention and Control | ECDC
+  - name: Thibaut Jombart
+    affiliation: MRC Centre for Outbreak Analysis and Modelling, Department of Infectious Disease Epidemiology, School of Public Health, Imperial College London, United Kingdom.
+abstract: Epidemiological outbreak data is often captured in line list and contact format. `epicontacts` is an R package that provides a unique data structure for combining these data into a single object in order to facilitate more efficient visualization and analysis. The package incorporates interactive visualization functionality as well as network analysis techniques. Originally developed as part of the Hackout3 event, it is now developed, maintained and featured as part of the R Epidemics Consortium (RECON). The package is available for download from the Comprehensive R Archive Network (CRAN) and Github.
+keywords: contact tracing, outbreaks, R
+bibliography: biblio.bib
+natbiboptions: super
+output: BiocWorkflowTools::f1000_article
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE, warning=FALSE, message=FALSE)
+```
+
+# Introduction
+
+In order to study, prepare for, and intervene against disease outbreaks, infectious disease modellers as well as public health professionals need an extensive toolbox for analyzing epidemiological data. Disease outbreak analytics involve a wide range of tasks which need to be linked together, from data collection and curation to exploratory analyses, and more advanced modelling techniques used for incidence forecasting[@funk:2016][@nouvellet:2017] or to predict the impact of specific interventions[@nouvellet:2015][@parker:2015]. Recent outbreak responses suggest that for such analyses to be as informative as possible, they need to rely on a wealth of available data, including timing of symptoms, characterisation of key delay distributions (e.g. incubation period, serial interval), and data on contacts between patients[@cauchemez:2014][@aylward:2014][@agua-agum:2015][@cori:2017]. 
+
+The latter type of data is particularly important in outbreak context, not only because contacts between patients is useful for unravelling the drivers of an epidemic [@agua-agum:2016][@cauchemez:2016], but also as a mean to identify new cases early and reduce ongoing transmission via contact tracing, i.e. follow-up of individuals who reported contacts with known cases[@senga:2017][@saurabh:2017]. However, curating contact data and linking them to existing linelists of cases is often challenging, and analytics tools for storing, handling, and visualising contact data are often missing [@who:2009][@rakesh:2014]. 
+
+Here, we introduce epicontacts, an R package providing a suite of tools aimed at merging linelists and contact data, and providing basic functionalities for handling, visualizing and analysing epidemiological contact data. Epicontacts is developed as part of the R Epidemics Consortium (RECON: http://www.repidemicsconsortium.org/), and as such is integrated alongside a larger set of analytics tools for outbreak response using the R software[@rcore].
+
+# Methods
+
+## Operation
+
+The `epicontacts` package is released as an open-source R package. A stable release is freely available for install on Windows, Mac and Linux operating systems via the CRAN repository. The latest development version of the package is available as part of the the RECON Github organization. From within R, users can issue the following commands to install the CRAN or Github version respectively:
+
+```{r}
+# install from CRAN
+install.packages("epicontacts")
+
+# install from Github
+install.packages("devtools")
+devtools::install_github("reconhub/epicontacts")
+```
+
+Once installed, the package is ready to be loaded and attached. It includes vignettes describing use-cases and documentation for specific functions.
+
+```{r, eval = TRUE}
+# load and attach the package
+library(epicontacts)
+```
+
+```{r}
+# view vignettes
+browseVignettes(package = "epicontacts")
+
+# access function documentation
+?make_epicontacts
+?vis_epicontacts
+```
+
+## Implementation
+
+### Data handling
+
+The package is designed to handle contact tracing data that is organized in linelist and contact list format. As such, it includes a novel data structure to accommodate both of these datasets in a single object. `epicontacts` was designed and exported as an S3 class using an object oriented programing (OOP) approach in R. Based on the language's `list` data type, objects of this class are constructed with the `make_epiconctacts()` function and include attributes for line list (`data.frame`) and contact list (`data.frame`). Once combined in a single object, these are mapped via other functions in a graph paradigm as nodes and edges. The `epicontacts` data structure also includes a `logical` attribute for whether or not this resulting network is directed.
+
+With the line list and contact data in a single object, the `epicontacts` package takes advantage of R's implementation of generic functions, which call specific methods depending on the S3 class of an object. This is implemented several places, including the `summary.epicontacts()` and `print.epicontacts()` methods, both of which are respectively called when the `summary()` or `print()` functions are used on an `epicontacts` object. The package deliberately does not include built-in contact and line list datasets, as these are abstracted in the `outbreaks` package[@outbreaks]. The example that follows demonstrates how to do preliminary handling of data from that package with `epicontacts`.
+
+
+```{r}
+# install the outbreaks package for data
+install.packages("outbreaks")
+```
+
+```{r, eval = TRUE}
+# load the outbreaks package
+library(outbreaks)
+
+# construct an epicontacts object
+x <- make_epicontacts(linelist=mers_korea_2015[[1]],
+                      contacts = mers_korea_2015[[2]],
+                      directed=TRUE)
+
+# print the object   
+x               
+    
+# view a summary of the object                  
+summary(x)
+```
+
+### Data visualisation
+
+As mentioned previously, the structure of the `epicontacts` object lends itself to network visualization. The package implements two interactive graph plotting packages: `visNetwork` and `threejs`[@visNetwork][@threejs]. These are htmlwidgets that provide R interfaces to JavaScript libraries, `vis.js` and `three.js` respectively. Their functionality is incorporated in the generic `plot()` method for an `epicontacts` object, which can be toggled between either with the "type" parameter. Alternatively, the `visNetwork` interactivity is accessible by using `vis_epicontacts()`, and `threejs` via `graph3D()`. Each function has a series arguments that can also be passed through `plot()`. Both share a color palette, and users can specify node, edge and background colors. However, these functions do have subtle differentiations in behaviors. For instance, `vis_epicontacts()` includes a specification for "node_shape" by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that `graph3D()` is a three-dimensional visualization. In addition to zooming and dragging the network, users can rotate clusters of nodes to better inspect their relationships.
+
+```{r}
+plot(x)
+```
+
+![The generic plot() method for an epicontacts object will use the visNetwork method by default.](figure1.png){width=100%}
+
+```{r}
+vis_epicontacts(x,
+                node_shape = "sex",
+                shapes = c(F = "female", M = "male"),
+                edge_label = "exposure")
+```
+
+![The vis_epicontacts() function explicitly calls visNetwork to make an interactive plot of the contact network.](figure2.png){width=100%}
+
+```{r}
+graph3D(x, bg_col = "black")
+```
+
+![The graph3D() function generates a three-dimensional network plot.](figure3.png){width=100%}
+
+### Data analysis
+
+One typical step for analyzing a dataset is to look at a certain subset of the data. `epicontacts` includes implementations of the generic R `subset` function to filter the line list or contacts based on values of particular attributes. These specifications are passed as named lists to the "node_attribute" and "edge_attribute" arguments, which can be used simultaneously if necessary. In addition to subsetting based on specific values, users may be interested in returning only contacts that appear in the line list or vice versa. The `thin()` function implements such logic.
+
+```{r}
+# subset for males
+subset(x, node_attribute = list("sex" = "M"))
+
+# subset for exposure in emergency room
+subset(x, edge_attribute = list("exposure" = "Emergency room"))
+
+# subset for males who survived and were exposed in emergency room
+subset(x,
+       node_attribute = list("sex" = "M", "outcome" = "Alive"),
+       edge_attribute = list("exposure" = "Emergency room"))
+
+thin(x, "contacts")
+thin(x, "linelist")  
+```
+
+The `get_pairwise()` feature allows for specific analyses based on pairwise contact between individuals. With the contacts established, the function searches the linelist based on the supplied attribute. If the given column is a numeric or date object, `get_pairwise()` will return a vector containing the difference of the values of the corresponding "from" and "to" contacts. This can be particularly useful, for example, if the line list includes the date of onset of each case. The subtracted value of the contacts (from and to) would approximate the serial interval for the outbreak[@fine:2003]. For factors, character vectors and other non-numeric attributes, the default behavior is to print the associated linelist attribute for each pair of contacts. The function includes an further parameter to pass an arbitrary function to process the specified attributes. In the case of a string attribute, this can be helpful for tabulating information about different contact pairings by using the `table()` function.
+
+```{r}
+# find difference for the date onset in cases between from and to contacts (serial interval)
+get_pairwise(x, "dt_onset")
+
+# find pairs of age category contacts
+get_pairwise(x, "age_class")
+
+# tabulate the pairs of age category contacts
+get_pairwise(x, "age_class", f = table)
+```
+
+In terms of analysis, the package also leverages network techniques, including calculation of node degrees. This is implemented in `get_degree()`, which takes an `epicontacts` object and considers unique individuals across line lists and contacts as nodes. However, the function can be parameterized to only include cases from the line list if necessary. For directed networks the degree is available for "in", "out" or "both" directions per individual. The vector of "out" degrees estimates the reproductive number distribution[@wu:2016].
+
+```{r}
+# get degree for both
+get_degree(x, "both")
+
+# get degree out for only the contacts among individuals that appear in line list
+get_degree(x, "out", only_linelist = TRUE)
+
+```
+
+# Discussion
+
+## Benefits
+
+While there are software packages available for epidemiological contact visualization and analysis, none aim to accommodate line list and contact data as purposively as `epicontacts`[@noremark:2014][@carroll:2014][@guthrie:2017]. Furthermore, the package strives to solve a problem of plotting dense graphs by implementing interactive network visualization tools. A static plot of a network with many nodes and edges may be difficult to interpret. However, by dragging, hovering, zooming or rotating an `epicontacts` visualization, a user may be able to better understand the data. To the authors' knowledge there are no comparable visualization tools for disease outbreak networks. With that in mind, the fact that the functionality is freely packaged, with source code available, is beneficial to public health officials responding to outbreaks, epidemiological researchers as well as developers looking to incorporate or extend the package's functions in novel ways.
+
+## Implications for new tools
+
+As with other open-source tools, the authors expect not only that the package will be used for data analysis, but also that it may be further developed and incorporated into new tools. The source code is available and contributions from other developers are welcome via Github pull requests. There is at least one R package that currently extends the original `epicontacts` functionality. The package `dibbler` for analyzing foodborne illness outbreak data builds upon the `epicontacts` structure to make its own similar data type[@dibbler].
+
+## Future considerations
+
+`epicontacts` is a dynamic resource. Its maintainers have an eye towards new features and extended functionality. One area of future development could involve performance enhancement for visualizing extremely dense networks. Generating the interactive plots of large graphs is resource intensive. Further optimization of these visualization functions would be ideal. Additionally, future attention may be directed towards inclusion of alternative visualization methods, like adjacency heatmaps for example.
+
+# Conclusions 
+
+`epicontacts` provides a unified interface in the R statistical computing language for researchers and public health professionals to process, visualize and analyze disease outbreak data. The package and its source are freely available in a stable release on CRAN, as well as a development release on Github. By providing functionality designed around line list and contact list data, the authors aim to enable more efficient epidemiological analyses.
+
+# Software availability
+
+1. URL link to where the software can be downloaded from or used by a non-coder: https://CRAN.R-project.org/package=epicontacts
+2. URL link to the author's version control system repository containing the source code: https://github.com/reconhub/epicontacts
+3. Link to source code as at time of publication (*F1000Research* TO GENERATE)
+4. Link to archived source code as at time of publication (*F1000Research* TO GENERATE)
+5. Software license: GPL 2
+
+# Author contributions
+
+- VPN: Conceptualization, Software, Writing - Original Draft Preparation
+- NR: Conceptualization, Software, Writing - Original Draft Preparation
+- FC: Conceptualization, Software, Writing - Original Draft Preparation
+- TC: Conceptualization, Software
+- BS: Conceptualization
+- TJ: Conceptualization, Software, Writing - Original Draft Preparation
+
+# Competing interests
+
+No competing interests were disclosed.
+
+# Grant information
+
+The authors declared that no grants were involved in supporting this work.
