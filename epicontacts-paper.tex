@@ -275,7 +275,7 @@ With the line list and contact data in a single object, the \texttt{epicontacts}
 
 \subsubsection{Data visualisation}\label{data-visualisation}
 
-As mentioned previously, the structure of the \texttt{epicontacts} object lends itself to network visualization. The package implements two interactive graph plotting packages: \texttt{visNetwork} and \texttt{threejs}\citep{visNetwork}\citep{threejs}. These are htmlwidgets that provide R interfaces to JavaScript libraries, \texttt{vis.js} and \texttt{three.js} respectively. Their functionality is incorporated in the generic \texttt{plot()} method for an \texttt{epicontacts} object, which can be toggled between either with the ``type'' parameter. Alternatively, the \texttt{visNetwork} interactivity is accessible by using \texttt{vis\_epicontacts()}, and \texttt{threejs} via \texttt{graph3D()}. Each function has a series arguments that can also be passed through \texttt{plot()}. Both share a color palette, and users can specify node, edge and background colors. However, these functions do have subtle differentiations in behaviors. For instance, \texttt{vis\_epicontacts()} includes a specification for ``node\_shape'' by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that \texttt{graph3D()} is a three-dimensional visualization. In addition to zooming and dragging the network, users can rotate clusters of nodes to better inspect their relationships.
+As mentioned previously, the structure of the \texttt{epicontacts} object lends itself to network visualization. The package implements two interactive graph plotting packages: \texttt{visNetwork} and \texttt{threejs}\citep{visNetwork}\citep{threejs}. These are htmlwidgets that provide R interfaces to JavaScript libraries, \texttt{vis.js} and \texttt{three.js} respectively. Their functionality is incorporated in the generic \texttt{plot()} method (see Figure 1) for an \texttt{epicontacts} object, which can be toggled between either with the ``type'' parameter. Alternatively, the \texttt{visNetwork} interactivity is accessible by using \texttt{vis\_epicontacts()} (see Figure 2), and \texttt{threejs} via \texttt{graph3D()} (see Figure 3). Each function has a series arguments that can also be passed through \texttt{plot()}. Both share a color palette, and users can specify node, edge and background colors. However, these functions do have subtle differentiations in behaviors. For instance, \texttt{vis\_epicontacts()} includes a specification for ``node\_shape'' by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that \texttt{graph3D()} is a three-dimensional visualization. In addition to zooming and dragging the network, users can rotate clusters of nodes to better inspect their relationships.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -342,7 +342,7 @@ The \texttt{get\_pairwise()} feature allows for specific analyses based on pairw
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# find difference for the date onset in cases between from and to contacts (serial interval)}
+\CommentTok{# find interval between date onset in cases}
 \KeywordTok{get_pairwise}\NormalTok{(x, }\StringTok{"dt_onset"}\NormalTok{)}
 
 \CommentTok{# find pairs of age category contacts}
