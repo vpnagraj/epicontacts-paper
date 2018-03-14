@@ -2,15 +2,15 @@
 title: "epicontacts: Handling, Visualisation and Analysis of Epidemiological Contacts"
 author: 
   - name: VP Nagraj
-    affiliation: University of Virginia, USA
+    affiliation: School of Medicine Research Computing, University of Virginia, USA
   - name: Nistara Randhawa
     affiliation: One Health Institute, University of California, Davis, USA
   - name: Finlay Campbell
     affiliation: MRC Centre for Outbreak Analysis and Modelling, Department of Infectious Disease Epidemiology, School of Public Health, Imperial College London, United Kingdom.
   - name: Thomas Crellen
-    affiliation: Sanger Institute
+    affiliation: Mahidol-Oxford Tropical Medicine Research Unit, Bangkok, Thailand
   - name: Bertrand Sudre
-    affiliation: European Centre for Disease Prevention and Control | ECDC
+    affiliation: European Centre for Disease Prevention and Control, Stockholm, Sweden
   - name: Thibaut Jombart
     affiliation: MRC Centre for Outbreak Analysis and Modelling, Department of Infectious Disease Epidemiology, School of Public Health, Imperial College London, United Kingdom.
 abstract: Epidemiological outbreak data is often captured in line list and contact format. `epicontacts` is an R package that provides a unique data structure for combining these data into a single object in order to facilitate more efficient visualization and analysis. The package incorporates interactive visualization functionality as well as network analysis techniques. Originally developed as part of the Hackout3 event, it is now developed, maintained and featured as part of the R Epidemics Consortium (RECON). The package is available for download from the Comprehensive R Archive Network (CRAN) and Github.
