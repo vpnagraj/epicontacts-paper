@@ -318,7 +318,7 @@ As mentioned previously, the structure of the \texttt{epicontacts} object lends 
 
 \subsubsection{Data analysis}\label{data-analysis}
 
-One typical step for analyzing a dataset is to look at a certain subset of the data. Subsetting is also useful during outbreak investigations for exploring epidemiological patterns across different attributes of interest. \texttt{epicontacts} includes implementations of the generic R \texttt{subset} function to filter the line list or contacts based on values of particular attributes. These specifications are passed as named lists to the ``node\_attribute'' and ``edge\_attribute'' arguments, which can be used simultaneously if necessary. In addition to subsetting based on specific values, users may be interested in returning only contacts that appear in the line list or vice versa. The \texttt{thin()} function implements such logic.
+One typical step for analyzing a dataset is to look at a certain subset of the data. Subsetting is also useful during outbreak investigations for exploring patterns across different attributes of interest. \texttt{epicontacts} includes implementations of the generic R \texttt{subset} function to filter the line list or contacts based on values of particular attributes. These specifications are passed as named lists to the ``node\_attribute'' and ``edge\_attribute'' arguments, which can be used simultaneously if necessary. In addition to subsetting based on specific values, users may be interested in returning only contacts that appear in the line list or vice versa. The \texttt{thin()} function implements such logic.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -377,7 +377,7 @@ As with other open-source tools, the authors expect not only that the package wi
 
 \subsection{Future considerations}\label{future-considerations}
 
-\texttt{epicontacts} is a dynamic resource. Its maintainers have an eye towards new features and extended functionality. One area of future development could involve performance enhancement for visualizing extremely dense networks. Generating the interactive plots of large graphs is resource intensive. Further optimization of these visualization functions would be ideal. Additionally, future attention may be directed towards inclusion of alternative visualization methods, like adjacency heatmaps for example.
+\texttt{epicontacts} is a dynamic resource. Its maintainers have an eye towards new features and extended functionality. One area of future development could involve performance enhancement for visualizing extremely dense networks. Generating the interactive plots of large graphs is resource intensive. Further optimization of these visualization functions would be ideal. Additionally, future attention may be directed towards inclusion of alternative visualization methods.
 
 \section{Conclusions}\label{conclusions}
 

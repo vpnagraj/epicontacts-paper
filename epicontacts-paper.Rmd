@@ -119,8 +119,8 @@ graph3D(x, bg_col = "black")
 ![The graph3D() function generates a three-dimensional network plot.](figure3.png){width=100%}
 
 ### Data analysis
-
-One typical step for analyzing a dataset is to look at a certain subset of the data. Subsetting is also useful during outbreak investigations for exploring epidemiological patterns across different attributes of interest. `epicontacts` includes implementations of the generic R `subset` function to filter the line list or contacts based on values of particular attributes. These specifications are passed as named lists to the "node_attribute" and "edge_attribute" arguments, which can be used simultaneously if necessary. In addition to subsetting based on specific values, users may be interested in returning only contacts that appear in the line list or vice versa. The `thin()` function implements such logic.
+  
+One typical step for analyzing a dataset is to look at a certain subset of the data. Subsetting is also useful during outbreak investigations for exploring patterns across different attributes of interest. `epicontacts` includes implementations of the generic R `subset` function to filter the line list or contacts based on values of particular attributes. These specifications are passed as named lists to the "node_attribute" and "edge_attribute" arguments, which can be used simultaneously if necessary. In addition to subsetting based on specific values, users may be interested in returning only contacts that appear in the line list or vice versa. The `thin()` function implements such logic.
 
 ```{r}
 # subset for males
@@ -174,7 +174,7 @@ As with other open-source tools, the authors expect not only that the package wi
 
 ## Future considerations
 
-`epicontacts` is a dynamic resource. Its maintainers have an eye towards new features and extended functionality. One area of future development could involve performance enhancement for visualizing extremely dense networks. Generating the interactive plots of large graphs is resource intensive. Further optimization of these visualization functions would be ideal. Additionally, future attention may be directed towards inclusion of alternative visualization methods, like adjacency heatmaps for example.
+`epicontacts` is a dynamic resource. Its maintainers have an eye towards new features and extended functionality. One area of future development could involve performance enhancement for visualizing extremely dense networks. Generating the interactive plots of large graphs is resource intensive. Further optimization of these visualization functions would be ideal. Additionally, future attention may be directed towards inclusion of alternative visualization methods.
 
 # Conclusions 
 
