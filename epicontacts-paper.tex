@@ -117,17 +117,17 @@ contact tracing, outbreaks, R
 
 \section{Introduction}\label{introduction}
 
-In order to study, prepare for, and intervene against disease outbreaks, infectious disease modellers as well as public health professionals need an extensive toolbox for analyzing epidemiological data. Disease outbreak analytics involve a wide range of tasks which need to be linked together, from data collection and curation to exploratory analyses, and more advanced modelling techniques used for incidence forecasting\citep{funk:2016}\citep{nouvellet:2017} or to predict the impact of specific interventions\citep{nouvellet:2015}\citep{parker:2015}. Recent outbreak responses suggest that for such analyses to be as informative as possible, they need to rely on a wealth of available data, including timing of symptoms, characterisation of key delay distributions (e.g.~incubation period, serial interval), and data on contacts between patients\citep{cauchemez:2014}\citep{aylward:2014}\citep{agua-agum:2015}\citep{cori:2017}.
+In order to study, prepare for, and intervene against disease outbreaks, infectious disease modellers and public health professionals need an extensive data analysis toolbox. Disease outbreak analytics involve a wide range of tasks that need to be linked together, from data collection and curation to exploratory analyses, and more advanced modelling techniques used for incidence forecasting\citep{funk:2016}\citep{nouvellet:2017} or to predict the impact of specific interventions\citep{nouvellet:2015}\citep{parker:2015}. Recent outbreak responses suggest that for such analyses to be as informative as possible, they need to rely on a wealth of available data, including timing of symptoms, characterisation of key delay distributions (e.g.~incubation period, serial interval), and data on contacts between patients\citep{cauchemez:2014}\citep{aylward:2014}\citep{agua-agum:2015}\citep{cori:2017}.
 
-The latter type of data is particularly important in outbreak context, not only because contacts between patients are useful for unravelling the drivers of an epidemic \citep{agua-agum:2016}\citep{cauchemez:2016}, but also as a means to identify new cases early and reduce ongoing transmission via contact tracing, i.e.~follow-up of individuals who reported contacts with known cases\citep{senga:2017}\citep{saurabh:2017}. However, curating contact data and linking them to existing line lists of cases is often challenging, and analytics tools for storing, handling, and visualising contact data are often missing \citep{who:2009}\citep{rakesh:2014}.
+The latter type of data is particularly important for outbreak analysis, not only because contacts between patients are useful for unravelling the drivers of an epidemic \citep{agua-agum:2016}\citep{cauchemez:2016}, but also because identifying new cases early can reduce ongoing transmission via contact tracing, i.e.~follow-up of individuals who reported contacts with known cases\citep{senga:2017}\citep{saurabh:2017}. However, curating contact data and linking them to existing line lists of cases is often challenging, and tools for storing, handling, and visualising contact data are often missing \citep{who:2009}\citep{rakesh:2014}.
 
-Here, we introduce epicontacts, an R package providing a suite of tools aimed at merging line lists and contact data, and providing basic functionalities for handling, visualising and analysing epidemiological contact data. Epicontacts is developed as part of the R Epidemics Consortium (RECON: \url{http://www.repidemicsconsortium.org/}), and as such is integrated alongside a larger set of analytics tools for outbreak response using the R software\citep{rcore}.
+Here, we introduce \texttt{epicontacts}, an R\citep{rcore} package providing a suite of tools aimed at merging line lists and contact data, and providing basic functionality for handling, visualising and analysing epidemiological contact data. Maintained as part of the R Epidemics Consortium (RECON \url{http://www.repidemicsconsortium.org/}), the package is integrated into an ecosystem of tools for outbreak response using the R language.
 
 \section{Methods}\label{methods}
 
 \subsection{Operation}\label{operation}
 
-The \texttt{epicontacts} package is released as an open-source R package. A stable release is freely available for install on Windows, Mac and Linux operating systems via the CRAN repository. The latest development version of the package is available as part of the the RECON Github organization. From within R, users can issue the following commands to install the CRAN or Github version respectively:
+\texttt{epicontacts} is released as an open-source R package. A stable release is available for Windows, Mac and Linux operating systems via the CRAN repository. The latest development version of the package is available through the RECON Github organization.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -140,8 +140,6 @@ The \texttt{epicontacts} package is released as an open-source R package. A stab
 \end{Highlighting}
 \end{Shaded}
 
-Once installed, the package is ready to be loaded and attached. It includes vignettes describing use-cases with Ebola and Middle East respiratory syndrome and documentation for specific functions.
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# load and attach the package}
@@ -149,24 +147,13 @@ Once installed, the package is ready to be loaded and attached. It includes vign
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# view vignettes}
-\KeywordTok{browseVignettes}\NormalTok{(}\DataTypeTok{package =} \StringTok{"epicontacts"}\NormalTok{)}
-
-\CommentTok{# access function documentation}
-\NormalTok{?make_epicontacts}
-\NormalTok{?vis_epicontacts}
-\end{Highlighting}
-\end{Shaded}
-
 \subsection{Implementation}\label{implementation}
 
 \subsubsection{Data handling}\label{data-handling}
 
-The package is designed to handle contact tracing data that is organized in line list and contact list format. As such, it includes a novel data structure to accommodate both of these datasets in a single object. \texttt{epicontacts} was designed and exported as an S3 class using an object oriented programming (OOP) approach in R. Based on the language's \texttt{list} data type, objects of this class are constructed with the \texttt{make\_epiconctacts()} function and include attributes for line list (\texttt{data.frame}) and contact list (\texttt{data.frame}). Once combined in a single object, these are mapped via other functions in a graph paradigm as nodes and edges. The \texttt{epicontacts} data structure also includes a \texttt{logical} attribute for whether or not this resulting network is directed.
+\texttt{epicontacts} includes a novel data structure to accommodate line list and contact list datasets in a single object. This object is constructed with the \texttt{make\_epiconctacts()} function and includes attributes from the original datasets. Once combined, these are mapped internally in a graph paradigm as nodes and edges. The \texttt{epicontacts} data structure also includes a \texttt{logical} attribute for whether or not this resulting network is directed.
 
-With the line list and contact data in a single object, the \texttt{epicontacts} package takes advantage of R's implementation of generic functions, which call specific methods depending on the S3 class of an object. This is implemented several places, including the \texttt{summary.epicontacts()} and \texttt{print.epicontacts()} methods, both of which are respectively called when the \texttt{summary()} or \texttt{print()} functions are used on an \texttt{epicontacts} object. The package deliberately does not include built-in contact and line list datasets, as these are abstracted in the \texttt{outbreaks} package\citep{outbreaks}. The example that follows demonstrates how to do preliminary handling of data from that package with \texttt{epicontacts}.
+The package takes advantage of R's generic functions, which call specific methods depending on the class of an object. This is implemented several places, including the \texttt{summary.epicontacts()} and \texttt{print.epicontacts()} methods, both of which are respectively called when the \texttt{summary()} or \texttt{print()} functions are used on an \texttt{epicontacts} object. The package does not include built-in data, as exemplary contact and line list datasets are available in the \texttt{outbreaks} package\citep{outbreaks}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -273,7 +260,7 @@ With the line list and contact data in a single object, the \texttt{epicontacts}
 
 \subsubsection{Data visualisation}\label{data-visualisation}
 
-As mentioned previously, the structure of the \texttt{epicontacts} object lends itself to network visualisation. The package implements two interactive graph plotting packages: \texttt{visNetwork} and \texttt{threejs}\citep{visNetwork}\citep{threejs}. These are HTML widgets that provide R interfaces to JavaScript libraries, \texttt{vis.js} and \texttt{three.js} respectively. Their functionality is incorporated in the generic \texttt{plot()} method (see Figure 1) for an \texttt{epicontacts} object, which can be toggled between either with the ``type'' parameter. Alternatively, the \texttt{visNetwork} interactivity is accessible by using \texttt{vis\_epicontacts()} (see Figure 2), and \texttt{threejs} via \texttt{graph3D()} (see Figure 3). Each function has a series of arguments that can also be passed through \texttt{plot()}. Both share a color palette, and users can specify node, edge and background colors. However, these functions do have subtle differentiations in behaviors. For instance, \texttt{vis\_epicontacts()} includes a specification for ``node\_shape'' by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that \texttt{graph3D()} is a three-dimensional visualisation. In addition to zooming and dragging the network, users can rotate clusters of nodes to better inspect their relationships.
+\texttt{epicontacts} implements two interactive network visualisation packages: \texttt{visNetwork} and \texttt{threejs}\citep{visNetwork}\citep{threejs}. These frameworks provide R interfaces to the \texttt{vis.js} and \texttt{three.js} JavaScript libraries respectively. Their functionality is incorporated in the generic \texttt{plot()} method (Figure 1) for an \texttt{epicontacts} object, which can be toggled between either with the ``type'' parameter. Alternatively, the \texttt{visNetwork} interactivity is accessible via \texttt{vis\_epicontacts()} (Figure 2), and \texttt{threejs} through \texttt{graph3D()} (Figure 3). Each function has a series of arguments that can also be passed through \texttt{plot()}. Both share a color palette, and users can specify node, edge and background colors. However, \texttt{vis\_epicontacts()} includes a specification for ``node\_shape'' by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that \texttt{graph3D()} is a three-dimensional visualisation, allowing users to rotate clusters of nodes to better inspect their relationships.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -316,7 +303,7 @@ As mentioned previously, the structure of the \texttt{epicontacts} object lends 
 
 \subsubsection{Data analysis}\label{data-analysis}
 
-One typical step for analyzing a dataset is to look at a certain subset of the data. Subsetting is also useful during outbreak investigations for exploring patterns across different attributes of interest. \texttt{epicontacts} includes implementations of the generic R \texttt{subset} function to filter the line list or contacts based on values of particular attributes. These specifications are passed as named lists to the ``node\_attribute'' and ``edge\_attribute'' arguments, which can be used simultaneously if necessary. In addition to subsetting based on specific values, users may be interested in returning only contacts that appear in the line list or vice versa. The \texttt{thin()} function implements such logic.
+Subsetting is a typical preliminary step in data analysis. \texttt{epicontacts} leverages a customized \texttt{subset} method to filter line list or contacts based on values of particular attributes from nodes, edges or both. If users are interested in returning only contacts that appear in the line list (or vice versa), the \texttt{thin()} function implements such logic.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -336,7 +323,7 @@ One typical step for analyzing a dataset is to look at a certain subset of the d
 \end{Highlighting}
 \end{Shaded}
 
-The \texttt{get\_pairwise()} feature allows for specific analyses based on pairwise contact between individuals. With the contacts established, the function searches the line list based on the supplied attribute. If the given column is a numeric or date object, \texttt{get\_pairwise()} will return a vector containing the difference of the values of the corresponding ``from'' and ``to'' contacts. This can be particularly useful, for example, if the line list includes the date of onset of each case. The subtracted value of the contacts (from and to) would approximate the serial interval for the outbreak\citep{fine:2003}. For factors, character vectors and other non-numeric attributes, the default behavior is to print the associated line list attribute for each pair of contacts. The function includes a further parameter to pass an arbitrary function to process the specified attributes. In the case of a string attribute, this can be helpful for tabulating information about different contact pairings by using the \texttt{table()} function.
+For analysis of pairwise contact between individuals, the \texttt{get\_pairwise()} feature searches the line list based on the specified attribute. If the given column is a numeric or date object, the function will return a vector containing the difference of the values of the corresponding ``from'' and ``to'' contacts. This can be particularly useful, for example, if the line list includes the date of onset of each case. The subtracted value of the contacts would approximate the serial interval for the outbreak\citep{fine:2003}. For factors, character vectors and other non-numeric attributes, the default behavior is to print the associated line list attribute for each pair of contacts. The function includes a further parameter to pass an arbitrary function to process the specified attributes. In the case of a character vector, this can be helpful for tabulating information about different contact pairings with \texttt{table()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -351,35 +338,19 @@ The \texttt{get\_pairwise()} feature allows for specific analyses based on pairw
 \end{Highlighting}
 \end{Shaded}
 
-In terms of analysis, the package also leverages network techniques, including calculation of node degrees. This is implemented in \texttt{get\_degree()}, which takes an \texttt{epicontacts} object and considers unique individuals across line lists and contacts as nodes. However, the function can be parameterized to only include cases from the line list if necessary. For directed networks the degree is available for ``in'', ``out'' or ``both'' directions per individual. The vector of ``out'' degrees estimates the reproductive number distribution\citep{wu:2016}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# get degree for both}
-\KeywordTok{get_degree}\NormalTok{(x, }\StringTok{"both"}\NormalTok{)}
-
-\CommentTok{# get degree out for only the contacts among individuals that appear in line list}
-\KeywordTok{get_degree}\NormalTok{(x, }\StringTok{"out"}\NormalTok{, }\DataTypeTok{only_linelist =} \OtherTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \section{Discussion}\label{discussion}
 
 \subsection{Benefits}\label{benefits}
 
-While there are software packages available for epidemiological contact visualisation and analysis, none aim to accommodate line list and contact data as purposively as \texttt{epicontacts}\citep{noremark:2014}\citep{carroll:2014}\citep{guthrie:2017}. Furthermore, the package strives to solve a problem of plotting dense graphs by implementing interactive network visualisation tools. A static plot of a network with many nodes and edges may be difficult to interpret. However, by dragging, hovering, zooming or rotating an \texttt{epicontacts} visualisation, a user may be able to better understand the data. To the authors' knowledge there are no comparable visualisation tools for disease outbreak networks. With that in mind, the fact that the functionality is freely packaged, with source code available, is beneficial to public health officials responding to outbreaks, epidemiological researchers as well as developers looking to incorporate or extend the package's functions in novel ways.
-
-\subsection{Implications for new tools}\label{implications-for-new-tools}
-
-As with other open-source tools, the authors expect not only that the package will be used for data analysis, but also that it may be further developed and incorporated into new tools. The source code is available and contributions from other developers are welcome via Github pull requests. There is at least one R package that currently extends the original \texttt{epicontacts} functionality. The package \texttt{dibbler} for analyzing foodborne illness outbreak data builds upon the \texttt{epicontacts} structure to make its own similar data type\citep{dibbler}.
+While there are software packages available for epidemiological contact visualisation and analysis, none aim to accommodate line list and contact data as purposively as \texttt{epicontacts}\citep{noremark:2014}\citep{carroll:2014}\citep{guthrie:2017}. Furthermore, this package strives to solve a problem of plotting dense graphs by implementing interactive network visualisation tools. A static plot of a network with many nodes and edges may be difficult to interpret. However, by rotating or hovering over an \texttt{epicontacts} visualisation, a user may better understand the data.
 
 \subsection{Future considerations}\label{future-considerations}
 
-\texttt{epicontacts} is a dynamic resource. Its maintainers have an eye towards new features and extended functionality. One area of future development could involve performance enhancement for visualising extremely dense networks. Generating the interactive plots of large graphs is resource intensive. Further optimization of these visualisation functions would be ideal. Additionally, future attention may be directed towards inclusion of alternative visualisation methods.
+The maintainers of \texttt{epicontacts} anticipate new features and functionality. Future development could involve performance optimization for visualising large networks, as generating these interactive plots is resource intensive. Additionally, attention may be directed towards inclusion of alternative visualisation methods.
 
 \section{Conclusions}\label{conclusions}
 
-\texttt{epicontacts} provides a unified interface in the R statistical computing language for researchers and public health professionals to process, visualise and analyze disease outbreak data. The package and its source are freely available in a stable release on CRAN, as well as a development release on Github. By providing functionality designed around line list and contact list data, the authors aim to enable more efficient epidemiological analyses.
+\texttt{epicontacts} provides a unified interface for processing, visualising and analyzing disease outbreak data in the R language. The package and its source are freely available on CRAN and Github. By developing functionality with line list and contact list data in mind, the authors aim to enable more efficient epidemiological outbreak analyses.
 
 \section{Software availability}\label{software-availability}
 
