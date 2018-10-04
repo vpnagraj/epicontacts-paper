@@ -243,6 +243,8 @@ Those interested in using \texttt{epicontacts} should have a line list of cases 
 
 The package takes advantage of R's generic functions, which call specific methods depending on the class of an object. This is implemented several places, including the \texttt{summary.epicontacts()} and \texttt{print.epicontacts()} methods, both of which are respectively called when the \texttt{summary()} or \texttt{print()} functions are used on an \texttt{epicontacts} object. The package does not include built-in data, as exemplary contact and line list datasets are available in the \texttt{outbreaks} package\citep{outbreaks}.
 
+The example that follows will use the \texttt{mers\_korea\_2015} dataset from \texttt{outbreaks}, which initial data collected by the Epidemic Intelligence group at European Centre for Disease Prevention and Control (ECDC) during the 2015 outbreak of Middle East respiratory syndrome (MERS-CoV) in South Korea. Note that the data used here was provided in \texttt{outbreaks} for teaching purposes, and therefore does not include the complete line list or contacts from the outbreak.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# install the outbreaks package for data}

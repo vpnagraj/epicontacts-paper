@@ -83,6 +83,8 @@ library(epicontacts)
 
 The package takes advantage of R's generic functions, which call specific methods depending on the class of an object. This is implemented several places, including the `summary.epicontacts()` and `print.epicontacts()` methods, both of which are respectively called when the `summary()` or `print()` functions are used on an `epicontacts` object. The package does not include built-in data, as exemplary contact and line list datasets are available in the `outbreaks` package[@outbreaks].
 
+The example that follows will use the `mers_korea_2015` dataset from `outbreaks`, which initial data  collected by the Epidemic Intelligence group at European Centre for Disease Prevention and Control (ECDC) during the 2015 outbreak of Middle East respiratory syndrome (MERS-CoV) in South Korea. Note that the data used here was provided in `outbreaks` for teaching purposes, and therefore does not include the complete line list or contacts from the outbreak. 
+
 ```{r}
 # install the outbreaks package for data
 install.packages("outbreaks")
