@@ -32,6 +32,29 @@ The latter type of data is particularly important for outbreak analysis, not onl
 
 Here, we introduce `epicontacts`, an R[@rcore] package providing a suite of tools aimed at merging line lists and contact data, and providing basic functionality for handling, visualising and analysing epidemiological contact data. Maintained as part of the R Epidemics Consortium (RECON http://www.repidemicsconsortium.org/), the package is integrated into an ecosystem of tools for outbreak response using the R language.
 
+# Use Cases
+
+Those interested in using `epicontacts` should have a line list of cases as well as a record of contacts between individuals. Both datasets must be enumerated in tabular format with rows and columns. At minimum the line list requires one column with a unique identifier for every case. The contact list needs two columns for the source and destination of each pair of contacts. The datasets can include arbitrary features of case or contact beyond these columns. Once loaded into R and stored as `data.frame` objects, these datasets can be passed to the `make_epicontacts()` function (see 'Methods' section for more detail). For an example of data prepared in this format, users can refer to the `outbreaks` R package.
+
+```{r, eval = TRUE}
+# load the outbreaks package
+library(outbreaks)
+
+# example simulated ebola data
+
+# line list
+str(ebola_sim$linelist)
+# contact list
+str(ebola_sim$contacts)
+
+# example middle east respiratory syndrome data
+
+# line list
+str(mers_korea_2015$linelist)
+# contact list
+str(mers_korea_2015$contacts)
+```
+
 # Methods
 
 ## Operation
@@ -137,29 +160,6 @@ get_pairwise(x, "age_class")
 
 # tabulate the pairs of age category contacts
 get_pairwise(x, "age_class", f = table)
-```
-
-# Use Cases
-
-Those interested in using `epicontacts` should have a line list of cases as well as a record of contacts between individuals. Both datasets must be enumerated in tabular format with rows and columns. At minimum the line list requires one column with a unique identifier for every case. The contact list needs two columns for the source and destination of each pair of contacts. The datasets can include arbitrary features of case or contact beyond these columns. Once loaded into R and stored as `data.frame` objects, these datasets can be passed to the `make_epicontacts()` function (see 'Methods' section for more detail). For an example of data prepared in this format, users can refer to the `outbreaks` R package.
-
-```{r, eval = TRUE}
-# load the outbreaks package
-library(outbreaks)
-
-# example simulated ebola data
-
-# line list
-str(ebola_sim$linelist)
-# contact list
-str(ebola_sim$contacts)
-
-# example middle east respiratory syndrome data
-
-# line list
-str(mers_korea_2015$linelist)
-# contact list
-str(mers_korea_2015$contacts)
 ```
 
 # Discussion
