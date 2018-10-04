@@ -89,7 +89,7 @@
 \begin{document}
 \pagestyle{front}
 
-\title{epicontacts: Handling, Visualisation and Analysis of Epidemiological Contacts}
+\title{epicontacts: Handling, visualisation and analysis of epidemiological contacts}
 
 \author[1]{VP Nagraj}
 \author[2]{Nistara Randhawa}
@@ -199,9 +199,9 @@ The package takes advantage of R's generic functions, which call specific method
 ##  8 SK_8     46 40-49     F     Outside Midd~ South Korea    Seoul Clinic,~
 ##  9 SK_9     56 50-59     M     Outside Midd~ South Korea    Pyeongtaek St~
 ## 10 SK_10    44 40-49     M     Outside Midd~ China          Pyeongtaek St~
-## # ... with 152 more rows, and 8 more variables: dt_onset <date>, dt_report
-## #   <date>, week_report <fct>, dt_start_exp <date>, dt_end_exp <date>,
-## #   dt_diag <date>, outcome <fct>, dt_death <date>
+## # ... with 152 more rows, and 8 more variables: dt_onset <date>,
+## #   dt_report <date>, week_report <fct>, dt_start_exp <date>,
+## #   dt_end_exp <date>, dt_diag <date>, outcome <fct>, dt_death <date>
 ## 
 ##   // contacts
 ## 
@@ -338,6 +338,92 @@ For analysis of pairwise contact between individuals, the \texttt{get\_pairwise(
 \end{Highlighting}
 \end{Shaded}
 
+\section{Use Cases}\label{use-cases}
+
+Those interested in using \texttt{epicontacts} should have a line list of cases as well as a record of contacts between individuals. Both datasets must be enumerated in tabular format with rows and columns. At minimum the line list requires one column with a unique identifier for every case. The contact list needs two columns for the source and destination of each pair of contacts. The datasets can include arbitrary features of case or contact beyond these columns. Once loaded into R and stored as \texttt{data.frame} objects, these datasets can be passed to the \texttt{make\_epicontacts()} function (see `Methods' section for more detail). For an example of data prepared in this format, users can refer to the \texttt{outbreaks} R package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# load the outbreaks package}
+\KeywordTok{library}\NormalTok{(outbreaks)}
+
+\CommentTok{# example simulated ebola data}
+
+\CommentTok{# line list}
+\KeywordTok{str}\NormalTok{(ebola_sim}\OperatorTok{$}\NormalTok{linelist)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    5888 obs. of  9 variables:
+##  $ case_id                : chr  "d1fafd" "53371b" "f5c3d8" "6c286a" ...
+##  $ generation             : int  0 1 1 2 2 0 3 3 2 3 ...
+##  $ date_of_infection      : Date, format: NA "2014-04-09" ...
+##  $ date_of_onset          : Date, format: "2014-04-07" "2014-04-15" ...
+##  $ date_of_hospitalisation: Date, format: "2014-04-17" "2014-04-20" ...
+##  $ date_of_outcome        : Date, format: "2014-04-19" NA ...
+##  $ outcome                : Factor w/ 2 levels "Death","Recover": NA NA 2 1 2 NA 2 1 2 1 ...
+##  $ gender                 : Factor w/ 2 levels "f","m": 1 2 1 1 1 1 1 1 2 2 ...
+##  $ hospital               : Factor w/ 11 levels "Connaught Hopital",..: 4 2 7 NA 7 NA 2 9 7 11 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# contact list}
+\KeywordTok{str}\NormalTok{(ebola_sim}\OperatorTok{$}\NormalTok{contacts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    3800 obs. of  3 variables:
+##  $ infector: chr  "d1fafd" "cac51e" "f5c3d8" "0f58c4" ...
+##  $ case_id : chr  "53371b" "f5c3d8" "0f58c4" "881bd4" ...
+##  $ source  : Factor w/ 2 levels "funeral","other": 2 1 2 2 2 1 2 2 2 2 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# example middle east respiratory syndrome data}
+
+\CommentTok{# line list}
+\KeywordTok{str}\NormalTok{(mers_korea_}\DecValTok{2015}\OperatorTok{$}\NormalTok{linelist)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    162 obs. of  15 variables:
+##  $ id            : chr  "SK_1" "SK_2" "SK_3" "SK_4" ...
+##  $ age           : int  68 63 76 46 50 71 28 46 56 44 ...
+##  $ age_class     : chr  "60-69" "60-69" "70-79" "40-49" ...
+##  $ sex           : Factor w/ 2 levels "F","M": 2 1 2 1 2 2 1 1 2 2 ...
+##  $ place_infect  : Factor w/ 2 levels "Middle East",..: 1 2 2 2 2 2 2 2 2 2 ...
+##  $ reporting_ctry: Factor w/ 2 levels "China","South Korea": 2 2 2 2 2 2 2 2 2 1 ...
+##  $ loc_hosp      : Factor w/ 13 levels "365 Yeollin Clinic, Seoul",..: 10 10 10 10 1 10 10 13 10 10 ...
+##  $ dt_onset      : Date, format: "2015-05-11" "2015-05-18" ...
+##  $ dt_report     : Date, format: "2015-05-19" "2015-05-20" ...
+##  $ week_report   : Factor w/ 5 levels "2015_21","2015_22",..: 1 1 1 2 2 2 2 2 2 2 ...
+##  $ dt_start_exp  : Date, format: "2015-04-18" "2015-05-15" ...
+##  $ dt_end_exp    : Date, format: "2015-05-04" "2015-05-20" ...
+##  $ dt_diag       : Date, format: "2015-05-20" "2015-05-20" ...
+##  $ outcome       : Factor w/ 2 levels "Alive","Dead": 1 1 2 1 1 2 1 1 1 1 ...
+##  $ dt_death      : Date, format: NA NA ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# contact list}
+\KeywordTok{str}\NormalTok{(mers_korea_}\DecValTok{2015}\OperatorTok{$}\NormalTok{contacts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    98 obs. of  4 variables:
+##  $ from         : chr  "SK_14" "SK_14" "SK_14" "SK_14" ...
+##  $ to           : chr  "SK_113" "SK_116" "SK_41" "SK_112" ...
+##  $ exposure     : Factor w/ 5 levels "Contact with HCW",..: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ diff_dt_onset: int  10 13 14 14 15 15 15 16 16 16 ...
+\end{verbatim}
+
 \section{Discussion}\label{discussion}
 
 \subsection{Benefits}\label{benefits}
@@ -394,8 +480,6 @@ The authors declared that no grants were involved in supporting this work.
 \section{Acknowledgements}\label{acknowledgements}
 
 The authors would like to thank all of the organizers and participants of the Hackout3 event held in Berkeley, California June 20-24, 2016. In particular, the authors acknowledge the support of the following organizations: MRC Centre for Outbreak Analysis, and Modelling at Imperial College London, the NIHR's Modelling Methodology Health Protection Research Unit at Imperial College London, and the Berkeley Institute for Data Science.
-
-Special thanks goes to Bertrand Sudre (European Centre for Disease Prevention and Control, Stockholm, Sweden) who helped conceptualize the project.
 
 {\small\bibliography{biblio.bib}}
 

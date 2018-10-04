@@ -1,5 +1,5 @@
 ---
-title: "epicontacts: Handling, Visualisation and Analysis of Epidemiological Contacts"
+title: "epicontacts: Handling, visualisation and analysis of epidemiological contacts"
 author: 
   - name: VP Nagraj
     affiliation: School of Medicine Research Computing, University of Virginia, USA
@@ -137,6 +137,29 @@ get_pairwise(x, "age_class")
 get_pairwise(x, "age_class", f = table)
 ```
 
+# Use Cases
+
+Those interested in using `epicontacts` should have a line list of cases as well as a record of contacts between individuals. Both datasets must be enumerated in tabular format with rows and columns. At minimum the line list requires one column with a unique identifier for every case. The contact list needs two columns for the source and destination of each pair of contacts. The datasets can include arbitrary features of case or contact beyond these columns. Once loaded into R and stored as `data.frame` objects, these datasets can be passed to the `make_epicontacts()` function (see 'Methods' section for more detail). For an example of data prepared in this format, users can refer to the `outbreaks` R package.
+
+```{r, eval = TRUE}
+# load the outbreaks package
+library(outbreaks)
+
+# example simulated ebola data
+
+# line list
+str(ebola_sim$linelist)
+# contact list
+str(ebola_sim$contacts)
+
+# example middle east respiratory syndrome data
+
+# line list
+str(mers_korea_2015$linelist)
+# contact list
+str(mers_korea_2015$contacts)
+```
+
 # Discussion
 
 ## Benefits
@@ -178,5 +201,3 @@ The authors declared that no grants were involved in supporting this work.
 # Acknowledgements
 
 The authors would like to thank all of the organizers and participants of the Hackout3 event held in Berkeley, California June 20-24, 2016. In particular, the authors acknowledge the support of the following organizations: MRC Centre for Outbreak Analysis, and Modelling at Imperial College London, the NIHR’s Modelling Methodology Health Protection Research Unit at Imperial College London, and the Berkeley Institute for Data Science. 
-
-Special thanks goes to Bertrand Sudre (European Centre for Disease Prevention and Control, Stockholm, Sweden) who helped conceptualize the project.
