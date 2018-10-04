@@ -36,7 +36,7 @@ Here, we introduce `epicontacts`, an R[@rcore] package providing a suite of tool
 
 ## Operation
 
-`epicontacts` is released as an open-source R package. A stable release is available for Windows, Mac and Linux operating systems via the CRAN repository. The latest development version of the package is available through the RECON Github organization.
+`epicontacts` is released as an open-source R package. A stable release is available for Windows, Mac and Linux operating systems via the CRAN repository. The latest development version of the package is available through the RECON Github organization. At minimum users must have R installed. No other system dependencies are required.
 
 ```{r}
 # install from CRAN
@@ -83,7 +83,7 @@ summary(x)
 
 ### Data visualisation
 
-`epicontacts` implements two interactive network visualisation packages: `visNetwork` and `threejs`[@visNetwork][@threejs]. These frameworks provide R interfaces to  the `vis.js` and `three.js` JavaScript libraries respectively. Their functionality is incorporated in the generic `plot()` method (Figure 1) for an `epicontacts` object, which can be toggled between either with the "type" parameter. Alternatively, the `visNetwork` interactivity is accessible via `vis_epicontacts()` (Figure 2), and `threejs` through `graph3D()` (Figure 3). Each function has a series of arguments that can also be passed through `plot()`. Both share a color palette, and users can specify node, edge and background colors. However, `vis_epicontacts()` includes a specification for "node_shape" by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that `graph3D()` is a three-dimensional visualisation, allowing users to rotate clusters of nodes to better inspect their relationships.
+`epicontacts` implements two interactive network visualisation packages: `visNetwork` and `threejs`[@visNetwork][@threejs]. These frameworks provide R interfaces to the `vis.js` and `three.js` JavaScript libraries respectively. Their functionality is incorporated in the generic `plot()` method (Figure 1) for an `epicontacts` object, which can be toggled between either with the "type" parameter. Alternatively, the `visNetwork` interactivity is accessible via `vis_epicontacts()` (Figure 2), and `threejs` through `graph3D()` (Figure 3). Each function has a series of arguments that can also be passed through `plot()`. Both share a color palette, and users can specify node, edge and background colors. However, `vis_epicontacts()` includes a specification for "node_shape" by a line list attribute as well as a customization of that shape with an icon from the Font Awesome icon library. The principal distinction between the two is that `graph3D()` is a three-dimensional visualisation, allowing users to rotate clusters of nodes to better inspect their relationships.
 
 ```{r}
 plot(x)
@@ -108,7 +108,7 @@ graph3D(x, bg_col = "black")
 
 ### Data analysis
   
-Subsetting is a typical preliminary step in data analysis. `epicontacts` leverages a customized `subset` method to filter line list or contacts based on values of particular attributes from nodes, edges or both. If users are interested in returning only contacts that appear in the line list (or vice versa), the `thin()` function implements such logic.
+Subsetting is a typical preliminary step in data analysis. `epicontacts` leverages a customized `subset` method to filter line lists or contacts based on values of particular attributes from nodes, edges or both. If users are interested in returning only contacts that appear in the line list (or vice versa), the `thin()` function implements such logic.
 
 ```{r}
 # subset for males
@@ -178,11 +178,13 @@ The maintainers of `epicontacts` anticipate new features and functionality. Futu
 
 # Software availability
 
-1. URL link to where the software can be downloaded from or used by a non-coder: https://CRAN.R-project.org/package=epicontacts
-2. URL link to the author's version control system repository containing the source code: https://github.com/reconhub/epicontacts
-3. Link to source code as at time of publication (*F1000Research* TO GENERATE)
-4. Link to archived source code as at time of publication (*F1000Research* TO GENERATE)
-5. Software license: GPL 2
+Software available from: <https://CRAN.R-project.org/package=epicontacts>
+
+Source code available from: <https://github.com/reconhub/epicontacts>
+
+Archived source code as at time of publication: <https://zenodo.org/record/1210993>
+
+Software license: GPL 2
 
 # Author contributions
 
