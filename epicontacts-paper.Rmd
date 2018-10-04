@@ -164,6 +164,8 @@ get_pairwise(x, "age_class")
 get_pairwise(x, "age_class", f = table)
 ```
 
+The data handling, visualization, and analysis methods described above represent the bulk of `epicontacts` features. More examples of how the package can be used as well as demonstrations of additional features can be found through the [RECON learn](https://www.reconlearn.org/) platform and the [`epicontacts` vignettes](http://www.repidemicsconsortium.org/epicontacts/articles/index.html).
+
 # Discussion
 
 ## Benefits
