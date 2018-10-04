@@ -95,11 +95,13 @@
 \author[2]{Nistara Randhawa}
 \author[3]{Finlay Campbell}
 \author[4]{Thomas Crellen}
+\author[5]{Bertrand Sudre}
 \author[3]{Thibaut Jombart}
 \affil[1]{School of Medicine Research Computing, University of Virginia, USA}
 \affil[2]{One Health Institute, University of California, Davis, USA}
 \affil[3]{MRC Centre for Outbreak Analysis and Modelling, Department of Infectious Disease Epidemiology, School of Public Health, Imperial College London, United Kingdom.}
 \affil[4]{Mahidol-Oxford Tropical Medicine Research Unit, Bangkok, Thailand}
+\affil[5]{European Centre for Disease Prevention and Control, Stockholm, Sweden}
 
 \maketitle
 \thispagestyle{front}
@@ -179,46 +181,37 @@ The package takes advantage of R's generic functions, which call specific method
 
 \begin{verbatim}
 ## 
-## /// Epidemiological Contacts //
+## /// Epidemiological Contacts ///
 ## 
-##   // class: epicontacts
-##   // 162 cases in linelist; 98 contacts;  directed 
+## // class: epicontacts
+## // 162 cases in linelist; 98 contacts;  directed 
 ## 
-##   // linelist
+## // linelist
 ## 
-## # A tibble: 162 x 15
-##    id      age age_class sex   place_infect  reporting_ctry loc_hosp      
-##  * <chr> <int> <chr>     <fct> <fct>         <fct>          <fct>         
-##  1 SK_1     68 60-69     M     Middle East   South Korea    Pyeongtaek St~
-##  2 SK_2     63 60-69     F     Outside Midd~ South Korea    Pyeongtaek St~
-##  3 SK_3     76 70-79     M     Outside Midd~ South Korea    Pyeongtaek St~
-##  4 SK_4     46 40-49     F     Outside Midd~ South Korea    Pyeongtaek St~
-##  5 SK_5     50 50-59     M     Outside Midd~ South Korea    365 Yeollin C~
-##  6 SK_6     71 70-79     M     Outside Midd~ South Korea    Pyeongtaek St~
-##  7 SK_7     28 20-29     F     Outside Midd~ South Korea    Pyeongtaek St~
-##  8 SK_8     46 40-49     F     Outside Midd~ South Korea    Seoul Clinic,~
-##  9 SK_9     56 50-59     M     Outside Midd~ South Korea    Pyeongtaek St~
-## 10 SK_10    44 40-49     M     Outside Midd~ China          Pyeongtaek St~
-## # ... with 152 more rows, and 8 more variables: dt_onset <date>,
-## #   dt_report <date>, week_report <fct>, dt_start_exp <date>,
-## #   dt_end_exp <date>, dt_diag <date>, outcome <fct>, dt_death <date>
+## 'data.frame':    162 obs. of  15 variables:
+##  $ id            : chr  "SK_1" "SK_2" "SK_3" "SK_4" ...
+##  $ age           : int  68 63 76 46 50 71 28 46 56 44 ...
+##  $ age_class     : chr  "60-69" "60-69" "70-79" "40-49" ...
+##  $ sex           : Factor w/ 2 levels "F","M": 2 1 2 1 2 2 1 1 2 2 ...
+##  $ place_infect  : Factor w/ 2 levels "Middle East",..: 1 2 2 2 2 2 2 2 2 2 ...
+##  $ reporting_ctry: Factor w/ 2 levels "China","South Korea": 2 2 2 2 2 2 2 2 2 1 ...
+##  $ loc_hosp      : Factor w/ 13 levels "365 Yeollin Clinic, Seoul",..: 10 10 10 10 1 10 10 13 10 10 ...
+##  $ dt_onset      : Date, format: "2015-05-11" "2015-05-18" ...
+##  $ dt_report     : Date, format: "2015-05-19" "2015-05-20" ...
+##  $ week_report   : Factor w/ 5 levels "2015_21","2015_22",..: 1 1 1 2 2 2 2 2 2 2 ...
+##  $ dt_start_exp  : Date, format: "2015-04-18" "2015-05-15" ...
+##  $ dt_end_exp    : Date, format: "2015-05-04" "2015-05-20" ...
+##  $ dt_diag       : Date, format: "2015-05-20" "2015-05-20" ...
+##  $ outcome       : Factor w/ 2 levels "Alive","Dead": 1 1 2 1 1 2 1 1 1 1 ...
+##  $ dt_death      : Date, format: NA NA ...
 ## 
-##   // contacts
+## // contacts
 ## 
-## # A tibble: 98 x 4
-##    from  to     exposure       diff_dt_onset
-##    <chr> <chr>  <fct>                  <int>
-##  1 SK_14 SK_113 Emergency room            10
-##  2 SK_14 SK_116 Emergency room            13
-##  3 SK_14 SK_41  Emergency room            14
-##  4 SK_14 SK_112 Emergency room            14
-##  5 SK_14 SK_100 Emergency room            15
-##  6 SK_14 SK_114 Emergency room            15
-##  7 SK_14 SK_136 Emergency room            15
-##  8 SK_14 SK_47  Emergency room            16
-##  9 SK_14 SK_110 Emergency room            16
-## 10 SK_14 SK_122 Emergency room            16
-## # ... with 88 more rows
+## 'data.frame':    98 obs. of  4 variables:
+##  $ from         : chr  "SK_14" "SK_14" "SK_14" "SK_14" ...
+##  $ to           : chr  "SK_113" "SK_116" "SK_41" "SK_112" ...
+##  $ exposure     : Factor w/ 5 levels "Contact with HCW",..: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ diff_dt_onset: int  10 13 14 14 15 15 15 16 16 16 ...
 \end{verbatim}
 
 \begin{Shaded}
@@ -465,6 +458,8 @@ The maintainers of \texttt{epicontacts} anticipate new features and functionalit
   FC: Conceptualization, Software, Writing - Original Draft Preparation
 \item
   TC: Conceptualization, Software
+\item
+  BS: Conceptualization
 \item
   TJ: Conceptualization, Software, Writing - Original Draft Preparation
 \end{itemize}
